@@ -18,6 +18,8 @@ abstract class DevicesState extends Equatable {
 
   factory DevicesState.error() = Error.create;
 
+  factory DevicesState.searchStopped() = SearchStopped.create;
+
   final _DevicesState _type;
 
   /// The [when] method is the equivalent to pattern matching.
@@ -25,9 +27,13 @@ abstract class DevicesState extends Equatable {
   R when<R extends Object>(
       {@required R Function() loading,
       @required R Function(Loaded) loaded,
-      @required R Function() error}) {
+      @required R Function() error,
+      @required R Function() searchStopped}) {
     assert(() {
-      if (loading == null || loaded == null || error == null) {
+      if (loading == null ||
+          loaded == null ||
+          error == null ||
+          searchStopped == null) {
         throw 'check for all possible cases';
       }
       return true;
@@ -39,6 +45,8 @@ abstract class DevicesState extends Equatable {
         return loaded(this as Loaded);
       case _DevicesState.Error:
         return error();
+      case _DevicesState.SearchStopped:
+        return searchStopped();
     }
   }
 
@@ -51,6 +59,7 @@ abstract class DevicesState extends Equatable {
       {R Function() loading,
       R Function(Loaded) loaded,
       R Function() error,
+      R Function() searchStopped,
       @required R Function(DevicesState) orElse}) {
     assert(() {
       if (orElse == null) {
@@ -68,6 +77,9 @@ abstract class DevicesState extends Equatable {
       case _DevicesState.Error:
         if (error == null) break;
         return error();
+      case _DevicesState.SearchStopped:
+        if (searchStopped == null) break;
+        return searchStopped();
     }
     return orElse(this);
   }
@@ -77,9 +89,13 @@ abstract class DevicesState extends Equatable {
   void whenPartial(
       {void Function() loading,
       void Function(Loaded) loaded,
-      void Function() error}) {
+      void Function() error,
+      void Function() searchStopped}) {
     assert(() {
-      if (loading == null && loaded == null && error == null) {
+      if (loading == null &&
+          loaded == null &&
+          error == null &&
+          searchStopped == null) {
         throw 'provide at least one branch';
       }
       return true;
@@ -94,6 +110,9 @@ abstract class DevicesState extends Equatable {
       case _DevicesState.Error:
         if (error == null) break;
         return error();
+      case _DevicesState.SearchStopped:
+        if (searchStopped == null) break;
+        return searchStopped();
     }
   }
 
@@ -171,4 +190,19 @@ class _ErrorImpl extends Error {
 
   @override
   String toString() => 'Error()';
+}
+
+@immutable
+abstract class SearchStopped extends DevicesState {
+  const SearchStopped() : super(_DevicesState.SearchStopped);
+
+  factory SearchStopped.create() = _SearchStoppedImpl;
+}
+
+@immutable
+class _SearchStoppedImpl extends SearchStopped {
+  const _SearchStoppedImpl() : super();
+
+  @override
+  String toString() => 'SearchStopped()';
 }

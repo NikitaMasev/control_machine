@@ -4,6 +4,7 @@ import 'package:control_machine/domain/blocs/devices/bloc.dart';
 import 'package:control_machine/presentation/controllers/devices_loading_controller.dart';
 import 'package:control_machine/presentation/controllers/devices_loading_state.dart';
 import 'package:control_machine/presentation/models/devices_page_state.dart';
+import 'package:control_machine/presentation/navigation/flow.dart';
 import 'package:control_machine/presentation/widgets/devices.dart';
 import 'package:control_machine/presentation/widgets/error_form.dart';
 import 'package:control_machine/presentation/widgets/loading_indicator.dart';
@@ -19,7 +20,7 @@ class DevicesPage extends StatefulWidget {
 }
 
 class _DevicesPageState extends State<DevicesPage> {
-  final _streamStatePage = PublishSubject<DevicesPageState>();
+  final _streamStatePage = BehaviorSubject<DevicesPageState>();
   DevicesBloc _devicesBloc;
   StreamSubscription _subBloc;
   StreamSubscription _subLoadingController;
@@ -32,13 +33,13 @@ class _DevicesPageState extends State<DevicesPage> {
           loaded: (s) =>
               _streamStatePage.add(DevicesPageState.loaded(devices: s.devices)),
           error: () => _streamStatePage.add(DevicesPageState.error()),
+          searchStopped: () => _streamStatePage.add(DevicesPageState.loading()),
         ));
     _subLoadingController = context
         .read<DevicesLoadingController>()
         .controller
         .listen((value) => value.whenPartial(search: () {
-              //_devicesBloc.add(DevicesEvent.search());
-              //_streamStatePage.add(DevicesPageState.loading());
+              _streamStatePage.add(DevicesPageState.loading());
               _devicesBloc.add(DevicesEvent.search());
             }, stop: () {
               _devicesBloc.add(DevicesEvent.stopSearch());
@@ -61,18 +62,25 @@ class _DevicesPageState extends State<DevicesPage> {
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             return snapshot.data.when(
-              loading: ()=>LoadingIndicator(),
-              loaded: (s) => Devices(devices: s.devices, pagePushed: () {
-                context
-                    .read<DevicesLoadingController>()
-                    .controller
-                    .add(DevicesLoadingState.stop());
-              }, pagePopped: () {
-                context
-                    .read<DevicesLoadingController>()
-                    .controller
-                    .add(DevicesLoadingState.search());
-              },),
+              loading: () => LoadingIndicator(),
+              loaded: (s) => Devices(
+                devices: s.devices,
+                deviceClicked: (device) {
+                  context
+                      .read<DevicesLoadingController>()
+                      .controller
+                      .add(DevicesLoadingState.stop());
+
+                  Navigator.of(context)
+                      .push(
+                        RouteFlow.connectAndControlFlow(context, device),
+                      )
+                      .then((_) => context
+                          .read<DevicesLoadingController>()
+                          .controller
+                          .add(DevicesLoadingState.search()));
+                },
+              ),
               error: () => ErrorForm(
                 error: DevicesPage._notFoundedDevices,
                 retry: () => ctx.read<DevicesBloc>().add(DevicesEvent.search()),

@@ -47,6 +47,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
 
   Stream<DevicesState> _eventStopSearch() async* {
     await _scanner.stopScan();
+    yield DevicesState.searchStopped();
   }
 
   @override
