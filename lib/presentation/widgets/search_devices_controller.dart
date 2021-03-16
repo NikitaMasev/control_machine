@@ -1,32 +1,33 @@
 import 'dart:async';
 
 import 'package:control_machine/domain/blocs/devices/bloc.dart';
-import 'package:control_machine/presentation/controllers/device_loading_controller.dart';
+import 'package:control_machine/presentation/controllers/devices_loading_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SearchDeviceController extends StatefulWidget {
+class SearchDevicesController extends StatefulWidget {
   final Widget child;
 
-  const SearchDeviceController({
+  const SearchDevicesController({
     Key key,
     @required this.child,
   }) : super(key: key);
 
   @override
-  _SearchDeviceControllerState createState() => _SearchDeviceControllerState();
+  _SearchDevicesControllerState createState() => _SearchDevicesControllerState();
 }
 
-class _SearchDeviceControllerState extends State<SearchDeviceController> {
+class _SearchDevicesControllerState extends State<SearchDevicesController> {
   StreamSubscription _subController;
   DevicesBloc _devicesBloc;
 
   @override
   void initState() {
     _devicesBloc = context.read<DevicesBloc>();
-    _subController = context.read<DeviceLoadingController>().controller.listen(
-          (isLoad) => _devicesBloc.add(
-            isLoad ? DevicesEvent.search() : DevicesEvent.stopSearch(),
+    _subController = context.read<DevicesLoadingController>().controller.listen(
+          (state) => state.whenPartial(
+            search: () => _devicesBloc.add(DevicesEvent.search()),
+            stop: () => _devicesBloc.add(DevicesEvent.stopSearch()),
           ),
         );
     super.initState();

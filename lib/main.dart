@@ -19,7 +19,11 @@ class Application extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme: TextTheme(
-          headline1: TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600),
+          headline1: TextStyle(
+            color: Colors.grey,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       home: PermissionChecker(
