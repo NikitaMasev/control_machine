@@ -1,6 +1,5 @@
 import 'package:control_machine/data/services/ble_scanner.dart';
 import 'package:control_machine/domain/blocs/devices/bloc.dart';
-import 'package:control_machine/presentation/widgets/search_devices_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,9 +18,7 @@ class SearchDevicesScope extends StatelessWidget {
         ..add(
           DevicesEvent.search(),
         ),
-      child: SearchDevicesController(
-        child: child,
-      ),
+      child: child,
     );
   }
 }
