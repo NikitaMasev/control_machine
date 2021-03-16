@@ -4,6 +4,7 @@ import 'package:control_machine/domain/logs/bloc_logger.dart';
 import 'package:control_machine/presentation/pages/home_page.dart';
 import 'package:control_machine/presentation/widgets/permission_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
@@ -14,6 +15,13 @@ void main() {
 class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.black,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ));
     return MaterialApp(
       title: 'Control Machine',
       debugShowCheckedModeBanner: false,
