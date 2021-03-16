@@ -48,7 +48,8 @@ class DeviceConnectBloc extends Bloc<DeviceConnectEvent, DeviceConnectState> {
   ) async* {
     yield DeviceConnectState.loading();
     _subConnectionStatus?.cancel();
-    _subConnectionStatus = _connector.getConnectionState().listen(
+    _subConnectionStatus = _connector.getConnectionState()
+        .listen(
           (event) => add(
             DeviceConnectEvent.connectionUpdate(
               connectionState: event,

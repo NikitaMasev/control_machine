@@ -25,7 +25,10 @@ class BleConnector implements Connector {
   Future<void> connect(String deviceId) async {
     await _subConnection?.cancel();
     _subConnection = _ble
-        .connectToDevice(id: deviceId)
+        .connectToDevice(
+          id: deviceId,
+          connectionTimeout: Duration(seconds: 4),
+        )
         .listen((state) => _streamConnectionState.add(state.connectionState));
   }
 
