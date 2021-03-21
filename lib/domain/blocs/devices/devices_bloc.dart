@@ -39,10 +39,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
     final convertedDevices = e.devices
         .map((e) => Device(id: e.id, name: e.name.isEmpty ? _unknown : e.name))
         .toList();
-    yield DevicesState.loaded(
-      devices: convertedDevices,
-      length: e.devices.length,
-    );
+    yield DevicesState.loaded(devices: convertedDevices);
   }
 
   Stream<DevicesState> _eventStopSearch() async* {

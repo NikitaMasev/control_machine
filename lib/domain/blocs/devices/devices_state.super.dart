@@ -13,8 +13,7 @@ abstract class DevicesState extends Equatable {
 
   factory DevicesState.loading() = Loading.create;
 
-  factory DevicesState.loaded(
-      {@required List<Device> devices, @required int length}) = Loaded.create;
+  factory DevicesState.loaded({@required List<Device> devices}) = Loaded.create;
 
   factory DevicesState.error() = Error.create;
 
@@ -137,44 +136,32 @@ class _LoadingImpl extends Loading {
 
 @immutable
 abstract class Loaded extends DevicesState {
-  const Loaded({@required this.devices, @required this.length})
-      : super(_DevicesState.Loaded);
+  const Loaded({@required this.devices}) : super(_DevicesState.Loaded);
 
-  factory Loaded.create(
-      {@required List<Device> devices, @required int length}) = _LoadedImpl;
+  factory Loaded.create({@required List<Device> devices}) = _LoadedImpl;
 
   final List<Device> devices;
 
-  final int length;
-
   /// Creates a copy of this Loaded but with the given fields
   /// replaced with the new values.
-  Loaded copyWith({List<Device> devices, int length});
+  Loaded copyWith({List<Device> devices});
 }
 
 @immutable
 class _LoadedImpl extends Loaded {
-  const _LoadedImpl({@required this.devices, @required this.length})
-      : super(devices: devices, length: length);
+  const _LoadedImpl({@required this.devices}) : super(devices: devices);
 
   @override
   final List<Device> devices;
 
   @override
-  final int length;
-
-  @override
-  _LoadedImpl copyWith(
-          {Object devices = superEnum, Object length = superEnum}) =>
-      _LoadedImpl(
+  _LoadedImpl copyWith({Object devices = superEnum}) => _LoadedImpl(
         devices: devices == superEnum ? this.devices : devices as List<Device>,
-        length: length == superEnum ? this.length : length as int,
       );
   @override
-  String toString() =>
-      'Loaded(devices: ${this.devices}, length: ${this.length})';
+  String toString() => 'Loaded(devices: ${this.devices})';
   @override
-  List<Object> get props => [devices, length];
+  List<Object> get props => [devices];
 }
 
 @immutable

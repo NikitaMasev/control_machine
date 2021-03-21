@@ -9,7 +9,6 @@ enum _DevicesState {
   Loading,
   @Data(fields: [
     DataField<List<Device>>('devices'),
-    DataField<int>('length'),
   ])
   Loaded,
   @object
