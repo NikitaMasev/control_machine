@@ -193,6 +193,10 @@ class JoystickView extends StatelessWidget {
     ];
   }
 
+  double _normalizedByOperation(double value, double valueSign) {
+    return valueSign.isNegative ? -value : value;
+  }
+
   DateTime? _processGesture(
     double size,
     double ignoreSize,
@@ -214,8 +218,8 @@ class JoystickView extends StatelessWidget {
       final boundaryY = y.abs() + middle + middle / 2;
       final boundaryX = x.abs() + middle + middle / 2;
 
-      x = boundaryX >= size ? middle : x;
-      y = boundaryY >= size ? middle : y;
+      x = boundaryX >= size ? _normalizedByOperation(middle, x) : x;
+      y = boundaryY >= size ? _normalizedByOperation(middle, y) : y;
 
       onCoordinatesChanged?.call(x, y);
     }
