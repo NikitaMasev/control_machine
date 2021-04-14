@@ -13,14 +13,10 @@ class ConnectorScope extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<Connector>.value(
-          value: BleConnector(
-            context.read<FlutterReactiveBle>(),
-          ),
-        ),
-      ],
+    return Provider<Connector>.value(
+      value: BleConnector(
+        context.read<FlutterReactiveBle>(),
+      ),
       child: child,
     );
   }

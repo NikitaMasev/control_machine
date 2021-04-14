@@ -8,18 +8,22 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
 class RouteFlow {
-  static MaterialPageRoute connectAndControlFlow(BuildContext context, Device?/*!*/ device)=>MaterialPageRoute(
-    builder: (ctx) => MultiProvider(
-      providers: [
-        Provider.value(value: context.read<FlutterReactiveBle>()),
-        Provider.value(value: device),
-      ],
-      child: BlocProvider.value(
-        value: context.read<LastDeviceBloc>(),
-        child: ConnectorScope(
-          child: ControlDevicePage(),
+  static MaterialPageRoute connectAndControlFlow(
+    BuildContext context,
+    Device device,
+  ) =>
+      MaterialPageRoute(
+        builder: (ctx) => MultiProvider(
+          providers: [
+            Provider.value(value: context.read<FlutterReactiveBle>()),
+            Provider.value(value: device),
+          ],
+          child: BlocProvider.value(
+            value: context.read<LastDeviceBloc>(),
+            child: ConnectorScope(
+              child: ControlDevicePage(),
+            ),
+          ),
         ),
-      ),
-    ),
-  );
+      );
 }

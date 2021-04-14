@@ -25,7 +25,7 @@ class ItemDevice extends StatelessWidget {
         device.id!,
         style: Theme.of(context).textTheme.headline1,
       ),
-      onTap: () => tap?.call(device),
+      onTap: () => tap.call(device),
     );
   }
 }
