@@ -186,18 +186,30 @@ class JoystickView extends StatelessWidget {
     ];
   }
 
-  DateTime? _processGesture(double size, double ignoreSize, Offset offset,
-      DateTime? callbackTimestamp) {
+  DateTime? _processGesture(
+    double size,
+    double ignoreSize,
+    Offset offset,
+    DateTime? callbackTimestamp,
+  ) {
     DateTime? _callbackTimestamp = callbackTimestamp;
 
     double middle = size / 2.0;
 
-    final y = middle - offset.dy;
-    final x = offset.dx - middle;
+    var y = middle - offset.dy;
+    var x = offset.dx - middle;
 
     if (onCoordinatesChanged != null &&
         _canCallOnDirectionChanged(callbackTimestamp)) {
       _callbackTimestamp = DateTime.now();
+
+      ///catch moment when inner circle touch edge of outer circle
+      final boundaryY = y.abs() + middle + middle / 2;
+      final boundaryX = x.abs() + middle + middle / 2;
+
+      x = boundaryX >= size ? middle : x;
+      y = boundaryY >= size ? middle : y;
+
       onCoordinatesChanged?.call(x, y);
     }
 

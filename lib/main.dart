@@ -69,6 +69,7 @@ class _TestJoyStickState extends State<TestJoyStick> {
         ),
       ),
     );*/
+    print('SIZE $size');
     return Scaffold(
       body: JoystickView(
         size: size,
