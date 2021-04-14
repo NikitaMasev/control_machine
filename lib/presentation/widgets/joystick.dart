@@ -13,8 +13,10 @@ class JoyStick extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = min<double>(MediaQuery.of(context).size.height,
-        MediaQuery.of(context).size.width);
+    final size = min<double>(
+      MediaQuery.of(context).size.height,
+      MediaQuery.of(context).size.width,
+    );
     final maxValCoordinate = size / 2;
     return BlocBuilder<DeviceControlBloc, DeviceControlState>(
       builder: (ctx, state) => state.when(
