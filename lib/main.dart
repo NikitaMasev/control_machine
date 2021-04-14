@@ -4,7 +4,6 @@ import 'package:control_machine/di/last_device_scope.dart';
 import 'package:control_machine/di/splash_scope.dart';
 import 'package:control_machine/domain/logs/bloc_logger.dart';
 import 'package:control_machine/presentation/pages/home_page.dart';
-import 'package:control_machine/presentation/widgets/joypad.dart';
 import 'package:control_machine/presentation/widgets/joystick_view.dart';
 import 'package:control_machine/presentation/widgets/permission_checker.dart';
 import 'package:flutter/material.dart';
@@ -27,19 +26,26 @@ class Application extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.light,
     ));
     return MaterialApp(
-        title: 'Control Machine',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: TextTheme(
-            headline1: TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
+      title: 'Control Machine',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        textTheme: TextTheme(
+          headline1: TextStyle(
+            color: Colors.grey,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        home: TestJoyStick());
+      ),
+      home: PermissionChecker(
+        child: SplashScope(
+          child: LastDeviceScope(
+            child: HomePage(),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -93,11 +99,3 @@ class _TestJoyStickState extends State<TestJoyStick> {
     return normalized;
   }
 }
-
-/*PermissionChecker(
-child: SplashScope(
-child: LastDeviceScope(
-child: HomePage(),
-),
-),
-),*/

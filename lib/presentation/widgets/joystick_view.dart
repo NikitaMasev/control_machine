@@ -6,9 +6,14 @@ import 'package:flutter/widgets.dart';
 import 'circle_view.dart';
 
 typedef JoystickDirectionCallback = void Function(
-    double degrees, double distance);
+  double degrees,
+  double distance,
+);
 
-typedef JoystickCoordinatesCallback = void Function(double x, double y);
+typedef JoystickCoordinatesCallback = void Function(
+  double x,
+  double y,
+);
 
 class JoystickView extends StatelessWidget {
   /// The size of the joystick.
@@ -69,8 +74,10 @@ class JoystickView extends StatelessWidget {
   Widget build(BuildContext context) {
     double actualSize = size != null
         ? size!
-        : _math.min(MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.height);
+        : _math.min(
+            MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height,
+          );
 
     double innerCircleSize = actualSize / 2;
     Offset lastPosition = Offset(innerCircleSize, innerCircleSize);
