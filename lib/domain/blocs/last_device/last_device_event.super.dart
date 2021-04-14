@@ -13,7 +13,7 @@ abstract class LastDeviceEvent extends Equatable {
 
   factory LastDeviceEvent.get() = Get.create;
 
-  factory LastDeviceEvent.saveDevice({@required Device device}) =
+  factory LastDeviceEvent.saveDevice({required Device device}) =
       SaveDevice.create;
 
   factory LastDeviceEvent.removeDevice() = RemoveDevice.create;
@@ -23,15 +23,9 @@ abstract class LastDeviceEvent extends Equatable {
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _LastDeviceEvent [_type]s defined.
   R when<R extends Object>(
-      {@required R Function() get,
-      @required R Function(SaveDevice) saveDevice,
-      @required R Function() removeDevice}) {
-    assert(() {
-      if (get == null || saveDevice == null || removeDevice == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+      {required R Function() get,
+      required R Function(SaveDevice) saveDevice,
+      required R Function() removeDevice}) {
     switch (this._type) {
       case _LastDeviceEvent.Get:
         return get();
@@ -48,16 +42,10 @@ abstract class LastDeviceEvent extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function() get,
-      R Function(SaveDevice) saveDevice,
-      R Function() removeDevice,
-      @required R Function(LastDeviceEvent) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function()? get,
+      R Function(SaveDevice)? saveDevice,
+      R Function()? removeDevice,
+      required R Function(LastDeviceEvent) orElse}) {
     switch (this._type) {
       case _LastDeviceEvent.Get:
         if (get == null) break;
@@ -75,9 +63,9 @@ abstract class LastDeviceEvent extends Equatable {
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
   void whenPartial(
-      {void Function() get,
-      void Function(SaveDevice) saveDevice,
-      void Function() removeDevice}) {
+      {void Function()? get,
+      void Function(SaveDevice)? saveDevice,
+      void Function()? removeDevice}) {
     assert(() {
       if (get == null && saveDevice == null && removeDevice == null) {
         throw 'provide at least one branch';
@@ -118,10 +106,9 @@ class _GetImpl extends Get {
 
 @immutable
 abstract class SaveDevice extends LastDeviceEvent {
-  const SaveDevice({@required this.device})
-      : super(_LastDeviceEvent.SaveDevice);
+  const SaveDevice({required this.device}) : super(_LastDeviceEvent.SaveDevice);
 
-  factory SaveDevice.create({@required Device device}) = _SaveDeviceImpl;
+  factory SaveDevice.create({required Device device}) = _SaveDeviceImpl;
 
   final Device device;
 
@@ -132,7 +119,7 @@ abstract class SaveDevice extends LastDeviceEvent {
 
 @immutable
 class _SaveDeviceImpl extends SaveDevice {
-  const _SaveDeviceImpl({@required this.device}) : super(device: device);
+  const _SaveDeviceImpl({required this.device}) : super(device: device);
 
   @override
   final Device device;

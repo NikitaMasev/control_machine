@@ -21,9 +21,9 @@ class DevicesPage extends StatefulWidget {
 
 class _DevicesPageState extends State<DevicesPage> {
   final _streamStatePage = BehaviorSubject<DevicesPageState>();
-  DevicesBloc _devicesBloc;
-  StreamSubscription _subBloc;
-  StreamSubscription _subLoadingController;
+  late DevicesBloc _devicesBloc;
+  StreamSubscription? _subBloc;
+  StreamSubscription? _subLoadingController;
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _DevicesPageState extends State<DevicesPage> {
         stream: _streamStatePage,
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
-            return snapshot.data.when(
+            return snapshot.data!.when(
               loading: () => LoadingIndicator(),
               loaded: (s) => Devices(
                 devices: s.devices,

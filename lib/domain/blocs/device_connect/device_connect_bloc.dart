@@ -7,7 +7,7 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
 class DeviceConnectBloc extends Bloc<DeviceConnectEvent, DeviceConnectState> {
   final Connector _connector;
-  StreamSubscription _subConnectionStatus;
+  StreamSubscription? _subConnectionStatus;
 
   DeviceConnectBloc(
     this._connector,
@@ -48,8 +48,7 @@ class DeviceConnectBloc extends Bloc<DeviceConnectEvent, DeviceConnectState> {
   ) async* {
     yield DeviceConnectState.loading();
     _subConnectionStatus?.cancel();
-    _subConnectionStatus = _connector.getConnectionState()
-        .listen(
+    _subConnectionStatus = _connector.getConnectionState().listen(
           (event) => add(
             DeviceConnectEvent.connectionUpdate(
               connectionState: event,
@@ -57,7 +56,9 @@ class DeviceConnectBloc extends Bloc<DeviceConnectEvent, DeviceConnectState> {
           ),
         );
 
-    await _connector.connect(e.device.id);
+    if (e.device.id != null) {
+      await _connector.connect(e.device.id!);
+    }
   }
 
   Stream<DeviceConnectState> _eventDisconnect() async* {

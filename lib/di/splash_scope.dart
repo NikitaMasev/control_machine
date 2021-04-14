@@ -8,7 +8,7 @@ class SplashScope extends StatelessWidget {
   final Widget child;
 
   const SplashScope({
-    @required this.child,
+    required this.child,
   });
 
   @override

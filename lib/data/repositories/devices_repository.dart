@@ -4,7 +4,7 @@ import 'package:control_machine/data/sources/devices_storage.dart';
 abstract class DevicesRepository {
   Future<Device> getLastConnectedDevice();
 
-  Future<void> saveLastConnectedDevice(Device device);
+  Future<void> saveLastConnectedDevice(Device? device);
 }
 
 class DevicesRepositoryImpl implements DevicesRepository {
@@ -18,7 +18,7 @@ class DevicesRepositoryImpl implements DevicesRepository {
   }
 
   @override
-  Future<void> saveLastConnectedDevice(Device device) {
+  Future<void> saveLastConnectedDevice(Device? device) {
     return _devicesStorage.saveDevice(device);
   }
 }

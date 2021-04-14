@@ -24,19 +24,10 @@ abstract class DeviceConnectState extends Equatable {
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _DeviceConnectState [_type]s defined.
   R when<R extends Object>(
-      {@required R Function() loading,
-      @required R Function() connected,
-      @required R Function() errorConnecting,
-      @required R Function() disconnected}) {
-    assert(() {
-      if (loading == null ||
-          connected == null ||
-          errorConnecting == null ||
-          disconnected == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+      {required R Function() loading,
+      required R Function() connected,
+      required R Function() errorConnecting,
+      required R Function() disconnected}) {
     switch (this._type) {
       case _DeviceConnectState.Loading:
         return loading();
@@ -55,17 +46,11 @@ abstract class DeviceConnectState extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function() loading,
-      R Function() connected,
-      R Function() errorConnecting,
-      R Function() disconnected,
-      @required R Function(DeviceConnectState) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function()? loading,
+      R Function()? connected,
+      R Function()? errorConnecting,
+      R Function()? disconnected,
+      required R Function(DeviceConnectState) orElse}) {
     switch (this._type) {
       case _DeviceConnectState.Loading:
         if (loading == null) break;
@@ -86,10 +71,10 @@ abstract class DeviceConnectState extends Equatable {
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
   void whenPartial(
-      {void Function() loading,
-      void Function() connected,
-      void Function() errorConnecting,
-      void Function() disconnected}) {
+      {void Function()? loading,
+      void Function()? connected,
+      void Function()? errorConnecting,
+      void Function()? disconnected}) {
     assert(() {
       if (loading == null &&
           connected == null &&

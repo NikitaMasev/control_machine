@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:control_machine/data/repositories/devices_repository.dart';
-import 'package:control_machine/data/services/ble_connector.dart';
 import 'package:control_machine/data/services/ble_scanner.dart';
 import 'package:control_machine/data/sources/devices_storage.dart';
 import 'package:control_machine/domain/blocs/splash/bloc.dart';

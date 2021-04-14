@@ -13,7 +13,7 @@ abstract class DevicesPageState extends Equatable {
 
   factory DevicesPageState.loading() = Loading.create;
 
-  factory DevicesPageState.loaded({@required List<Device> devices}) =
+  factory DevicesPageState.loaded({required List<Device> devices}) =
       Loaded.create;
 
   factory DevicesPageState.error() = Error.create;
@@ -23,15 +23,9 @@ abstract class DevicesPageState extends Equatable {
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _DevicesPageState [_type]s defined.
   R when<R extends Object>(
-      {@required R Function() loading,
-      @required R Function(Loaded) loaded,
-      @required R Function() error}) {
-    assert(() {
-      if (loading == null || loaded == null || error == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+      {required R Function() loading,
+      required R Function(Loaded) loaded,
+      required R Function() error}) {
     switch (this._type) {
       case _DevicesPageState.Loading:
         return loading();
@@ -48,16 +42,10 @@ abstract class DevicesPageState extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function() loading,
-      R Function(Loaded) loaded,
-      R Function() error,
-      @required R Function(DevicesPageState) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function()? loading,
+      R Function(Loaded)? loaded,
+      R Function()? error,
+      required R Function(DevicesPageState) orElse}) {
     switch (this._type) {
       case _DevicesPageState.Loading:
         if (loading == null) break;
@@ -75,9 +63,9 @@ abstract class DevicesPageState extends Equatable {
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
   void whenPartial(
-      {void Function() loading,
-      void Function(Loaded) loaded,
-      void Function() error}) {
+      {void Function()? loading,
+      void Function(Loaded)? loaded,
+      void Function()? error}) {
     assert(() {
       if (loading == null && loaded == null && error == null) {
         throw 'provide at least one branch';
@@ -118,9 +106,9 @@ class _LoadingImpl extends Loading {
 
 @immutable
 abstract class Loaded extends DevicesPageState {
-  const Loaded({@required this.devices}) : super(_DevicesPageState.Loaded);
+  const Loaded({required this.devices}) : super(_DevicesPageState.Loaded);
 
-  factory Loaded.create({@required List<Device> devices}) = _LoadedImpl;
+  factory Loaded.create({required List<Device> devices}) = _LoadedImpl;
 
   final List<Device> devices;
 
@@ -131,7 +119,7 @@ abstract class Loaded extends DevicesPageState {
 
 @immutable
 class _LoadedImpl extends Loaded {
-  const _LoadedImpl({@required this.devices}) : super(devices: devices);
+  const _LoadedImpl({required this.devices}) : super(devices: devices);
 
   @override
   final List<Device> devices;

@@ -7,7 +7,7 @@ import 'package:control_machine/domain/blocs/devices/bloc.dart';
 
 class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   final Scanner _scanner;
-  StreamSubscription _subDevices;
+  StreamSubscription? _subDevices;
 
   static const _unknown = 'Unknown';
 
@@ -36,7 +36,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   }
 
   Stream<DevicesState> _eventDevicesFounded(DevicesFounded e) async* {
-    final convertedDevices = e.devices
+    final convertedDevices = e.devices!/*!*/
         .map((e) => Device(id: e.id, name: e.name.isEmpty ? _unknown : e.name))
         .toList();
     yield DevicesState.loaded(devices: convertedDevices);

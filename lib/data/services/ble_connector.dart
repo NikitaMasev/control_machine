@@ -17,7 +17,7 @@ class BleConnector implements Connector {
   final FlutterReactiveBle _ble;
 
   final _streamConnectionState = PublishSubject<DeviceConnectionState>();
-  StreamSubscription _subConnection;
+  StreamSubscription? _subConnection;
 
   BleConnector(this._ble);
 

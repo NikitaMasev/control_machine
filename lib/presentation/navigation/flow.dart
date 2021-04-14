@@ -8,7 +8,7 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
 class RouteFlow {
-  static MaterialPageRoute connectAndControlFlow(BuildContext context, Device device)=>MaterialPageRoute(
+  static MaterialPageRoute connectAndControlFlow(BuildContext context, Device?/*!*/ device)=>MaterialPageRoute(
     builder: (ctx) => MultiProvider(
       providers: [
         Provider.value(value: context.read<FlutterReactiveBle>()),

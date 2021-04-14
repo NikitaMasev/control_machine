@@ -11,8 +11,8 @@ class ControllerScope extends StatelessWidget {
   final Widget child;
 
   const ControllerScope({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override

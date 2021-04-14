@@ -11,13 +11,12 @@ part of 'device_connect_event.dart';
 abstract class DeviceConnectEvent extends Equatable {
   const DeviceConnectEvent(this._type);
 
-  factory DeviceConnectEvent.connect({@required Device device}) =
-      Connect.create;
+  factory DeviceConnectEvent.connect({required Device device}) = Connect.create;
 
   factory DeviceConnectEvent.disconnect() = Disconnect.create;
 
   factory DeviceConnectEvent.connectionUpdate(
-          {@required DeviceConnectionState connectionState}) =
+          {required DeviceConnectionState connectionState}) =
       ConnectionUpdate.create;
 
   final _DeviceConnectEvent _type;
@@ -25,15 +24,9 @@ abstract class DeviceConnectEvent extends Equatable {
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _DeviceConnectEvent [_type]s defined.
   R when<R extends Object>(
-      {@required R Function(Connect) connect,
-      @required R Function() disconnect,
-      @required R Function(ConnectionUpdate) connectionUpdate}) {
-    assert(() {
-      if (connect == null || disconnect == null || connectionUpdate == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+      {required R Function(Connect) connect,
+      required R Function() disconnect,
+      required R Function(ConnectionUpdate) connectionUpdate}) {
     switch (this._type) {
       case _DeviceConnectEvent.Connect:
         return connect(this as Connect);
@@ -50,16 +43,10 @@ abstract class DeviceConnectEvent extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function(Connect) connect,
-      R Function() disconnect,
-      R Function(ConnectionUpdate) connectionUpdate,
-      @required R Function(DeviceConnectEvent) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function(Connect)? connect,
+      R Function()? disconnect,
+      R Function(ConnectionUpdate)? connectionUpdate,
+      required R Function(DeviceConnectEvent) orElse}) {
     switch (this._type) {
       case _DeviceConnectEvent.Connect:
         if (connect == null) break;
@@ -77,9 +64,9 @@ abstract class DeviceConnectEvent extends Equatable {
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
   void whenPartial(
-      {void Function(Connect) connect,
-      void Function() disconnect,
-      void Function(ConnectionUpdate) connectionUpdate}) {
+      {void Function(Connect)? connect,
+      void Function()? disconnect,
+      void Function(ConnectionUpdate)? connectionUpdate}) {
     assert(() {
       if (connect == null && disconnect == null && connectionUpdate == null) {
         throw 'provide at least one branch';
@@ -105,9 +92,9 @@ abstract class DeviceConnectEvent extends Equatable {
 
 @immutable
 abstract class Connect extends DeviceConnectEvent {
-  const Connect({@required this.device}) : super(_DeviceConnectEvent.Connect);
+  const Connect({required this.device}) : super(_DeviceConnectEvent.Connect);
 
-  factory Connect.create({@required Device device}) = _ConnectImpl;
+  factory Connect.create({required Device device}) = _ConnectImpl;
 
   final Device device;
 
@@ -118,7 +105,7 @@ abstract class Connect extends DeviceConnectEvent {
 
 @immutable
 class _ConnectImpl extends Connect {
-  const _ConnectImpl({@required this.device}) : super(device: device);
+  const _ConnectImpl({required this.device}) : super(device: device);
 
   @override
   final Device device;
@@ -150,12 +137,11 @@ class _DisconnectImpl extends Disconnect {
 
 @immutable
 abstract class ConnectionUpdate extends DeviceConnectEvent {
-  const ConnectionUpdate({@required this.connectionState})
+  const ConnectionUpdate({required this.connectionState})
       : super(_DeviceConnectEvent.ConnectionUpdate);
 
   factory ConnectionUpdate.create(
-          {@required DeviceConnectionState connectionState}) =
-      _ConnectionUpdateImpl;
+      {required DeviceConnectionState connectionState}) = _ConnectionUpdateImpl;
 
   final DeviceConnectionState connectionState;
 
@@ -166,7 +152,7 @@ abstract class ConnectionUpdate extends DeviceConnectEvent {
 
 @immutable
 class _ConnectionUpdateImpl extends ConnectionUpdate {
-  const _ConnectionUpdateImpl({@required this.connectionState})
+  const _ConnectionUpdateImpl({required this.connectionState})
       : super(connectionState: connectionState);
 
   @override

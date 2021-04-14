@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class DevicesStorage {
   Future<Device> lastDevice();
 
-  Future<void> saveDevice(Device device);
+  Future<void> saveDevice(Device? device);
 }
 
 class DevicesStorageImpl implements DevicesStorage {
@@ -26,7 +26,7 @@ class DevicesStorageImpl implements DevicesStorage {
   }
 
   @override
-  Future<void> saveDevice(Device device) {
-    return _shared.setString(_KEY_LAST_DEVICE, jsonEncode(device.toJson()));
+  Future<void> saveDevice(Device? device) {
+    return _shared.setString(_KEY_LAST_DEVICE, jsonEncode(device?.toJson()));
   }
 }

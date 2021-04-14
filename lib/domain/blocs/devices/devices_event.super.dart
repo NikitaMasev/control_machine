@@ -14,7 +14,7 @@ abstract class DevicesEvent extends Equatable {
   factory DevicesEvent.search() = Search.create;
 
   factory DevicesEvent.devicesFounded(
-      {@required List<DiscoveredDevice> devices}) = DevicesFounded.create;
+      {required List<DiscoveredDevice> devices}) = DevicesFounded.create;
 
   factory DevicesEvent.stopSearch() = StopSearch.create;
 
@@ -23,15 +23,9 @@ abstract class DevicesEvent extends Equatable {
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _DevicesEvent [_type]s defined.
   R when<R extends Object>(
-      {@required R Function() search,
-      @required R Function(DevicesFounded) devicesFounded,
-      @required R Function() stopSearch}) {
-    assert(() {
-      if (search == null || devicesFounded == null || stopSearch == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+      {required R Function() search,
+      required R Function(DevicesFounded) devicesFounded,
+      required R Function() stopSearch}) {
     switch (this._type) {
       case _DevicesEvent.Search:
         return search();
@@ -48,16 +42,10 @@ abstract class DevicesEvent extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function() search,
-      R Function(DevicesFounded) devicesFounded,
-      R Function() stopSearch,
-      @required R Function(DevicesEvent) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function()? search,
+      R Function(DevicesFounded)? devicesFounded,
+      R Function()? stopSearch,
+      required R Function(DevicesEvent) orElse}) {
     switch (this._type) {
       case _DevicesEvent.Search:
         if (search == null) break;
@@ -75,9 +63,9 @@ abstract class DevicesEvent extends Equatable {
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
   void whenPartial(
-      {void Function() search,
-      void Function(DevicesFounded) devicesFounded,
-      void Function() stopSearch}) {
+      {void Function()? search,
+      void Function(DevicesFounded)? devicesFounded,
+      void Function()? stopSearch}) {
     assert(() {
       if (search == null && devicesFounded == null && stopSearch == null) {
         throw 'provide at least one branch';
@@ -118,10 +106,10 @@ class _SearchImpl extends Search {
 
 @immutable
 abstract class DevicesFounded extends DevicesEvent {
-  const DevicesFounded({@required this.devices})
+  const DevicesFounded({required this.devices})
       : super(_DevicesEvent.DevicesFounded);
 
-  factory DevicesFounded.create({@required List<DiscoveredDevice> devices}) =
+  factory DevicesFounded.create({required List<DiscoveredDevice> devices}) =
       _DevicesFoundedImpl;
 
   final List<DiscoveredDevice> devices;
@@ -133,7 +121,7 @@ abstract class DevicesFounded extends DevicesEvent {
 
 @immutable
 class _DevicesFoundedImpl extends DevicesFounded {
-  const _DevicesFoundedImpl({@required this.devices}) : super(devices: devices);
+  const _DevicesFoundedImpl({required this.devices}) : super(devices: devices);
 
   @override
   final List<DiscoveredDevice> devices;

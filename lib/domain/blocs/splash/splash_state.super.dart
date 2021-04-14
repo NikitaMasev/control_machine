@@ -14,23 +14,17 @@ abstract class SplashState extends Equatable {
   factory SplashState.loading() = Loading.create;
 
   factory SplashState.initialized(
-      {@required Scanner scanner,
-      @required DevicesRepository devicesRepository,
-      @required FlutterReactiveBle ble}) = Initialized.create;
+      {required Scanner scanner,
+      required DevicesRepository devicesRepository,
+      required FlutterReactiveBle ble}) = Initialized.create;
 
   final _SplashState _type;
 
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _SplashState [_type]s defined.
   R when<R extends Object>(
-      {@required R Function() loading,
-      @required R Function(Initialized) initialized}) {
-    assert(() {
-      if (loading == null || initialized == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+      {required R Function() loading,
+      required R Function(Initialized) initialized}) {
     switch (this._type) {
       case _SplashState.Loading:
         return loading();
@@ -45,15 +39,9 @@ abstract class SplashState extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function() loading,
-      R Function(Initialized) initialized,
-      @required R Function(SplashState) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function()? loading,
+      R Function(Initialized)? initialized,
+      required R Function(SplashState) orElse}) {
     switch (this._type) {
       case _SplashState.Loading:
         if (loading == null) break;
@@ -68,7 +56,7 @@ abstract class SplashState extends Equatable {
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
   void whenPartial(
-      {void Function() loading, void Function(Initialized) initialized}) {
+      {void Function()? loading, void Function(Initialized)? initialized}) {
     assert(() {
       if (loading == null && initialized == null) {
         throw 'provide at least one branch';
@@ -107,15 +95,15 @@ class _LoadingImpl extends Loading {
 @immutable
 abstract class Initialized extends SplashState {
   const Initialized(
-      {@required this.scanner,
-      @required this.devicesRepository,
-      @required this.ble})
+      {required this.scanner,
+      required this.devicesRepository,
+      required this.ble})
       : super(_SplashState.Initialized);
 
   factory Initialized.create(
-      {@required Scanner scanner,
-      @required DevicesRepository devicesRepository,
-      @required FlutterReactiveBle ble}) = _InitializedImpl;
+      {required Scanner scanner,
+      required DevicesRepository devicesRepository,
+      required FlutterReactiveBle ble}) = _InitializedImpl;
 
   final Scanner scanner;
 
@@ -134,9 +122,9 @@ abstract class Initialized extends SplashState {
 @immutable
 class _InitializedImpl extends Initialized {
   const _InitializedImpl(
-      {@required this.scanner,
-      @required this.devicesRepository,
-      @required this.ble})
+      {required this.scanner,
+      required this.devicesRepository,
+      required this.ble})
       : super(scanner: scanner, devicesRepository: devicesRepository, ble: ble);
 
   @override

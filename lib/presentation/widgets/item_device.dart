@@ -6,8 +6,8 @@ class ItemDevice extends StatelessWidget {
   final Function(Device) tap;
 
   const ItemDevice({
-    @required this.device,
-    @required this.tap,
+    required this.device,
+    required this.tap,
   });
 
   @override
@@ -15,14 +15,14 @@ class ItemDevice extends StatelessWidget {
     return ListTile(
       leading: Icon(
         Icons.bluetooth,
-        color: Theme.of(context).textTheme.headline1.color,
+        color: Theme.of(context).textTheme.headline1!.color,
       ),
       title: Text(
-        device.name,
+        device.name!,
         style: Theme.of(context).textTheme.headline1,
       ),
       subtitle: Text(
-        device.id,
+        device.id!,
         style: Theme.of(context).textTheme.headline1,
       ),
       onTap: () => tap?.call(device),

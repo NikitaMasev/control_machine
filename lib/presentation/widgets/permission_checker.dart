@@ -8,7 +8,7 @@ class PermissionChecker extends StatefulWidget {
   final Widget child;
 
   const PermissionChecker({
-    @required this.child,
+    required this.child,
   });
 
   @override
@@ -19,7 +19,6 @@ class _PermissionCheckerState extends State<PermissionChecker> {
   final _streamStatePermission = BehaviorSubject<PermissionStatus>();
 
   static const _needPermission = 'Необходимо разрешение для дальнейшей работы.';
-  static const _permissionGranted = 'Разрешение получено.';
   static const _permissionRestricted = 'Разрешение ограничено (restricted),'
       ' проверьте доступные разрешения через настройки.';
   static const _permissionLimited = 'Разрешение ограничено (limited),'
@@ -51,23 +50,16 @@ class _PermissionCheckerState extends State<PermissionChecker> {
         child: StreamBuilder<PermissionStatus>(
             stream: _streamStatePermission,
             builder: (ctx, snapshot) {
-              print('StreamBuilder<PermissionStatus>');
               if (snapshot.hasData) {
-                switch (snapshot.data) {
-                  case PermissionStatus.undetermined:
-                    _requestPermissionAndCheck();
-                    return TextInfo(text: _needPermission);
+                switch (snapshot.data!) {
                   case PermissionStatus.granted:
-                    //widget.permissionGranted?.call();
                     return widget.child;
                   case PermissionStatus.denied:
                     _requestPermissionAndCheck();
                     return TextInfo(text: _needPermission);
                   case PermissionStatus.restricted:
-                    //widget.permissionError?.call();
                     return TextInfo(text: _permissionRestricted);
                   case PermissionStatus.limited:
-                    //widget.permissionError?.call();
                     return TextInfo(text: _permissionLimited);
                   case PermissionStatus.permanentlyDenied:
                     _requestPermissionAndCheck();

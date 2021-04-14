@@ -7,8 +7,8 @@ class SearchDevicesScope extends StatelessWidget {
   final Widget child;
 
   const SearchDevicesScope({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override

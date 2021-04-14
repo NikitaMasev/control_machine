@@ -5,13 +5,13 @@ part 'device.g.dart';
 
 @JsonSerializable()
 class Device {
-  final String id;
-  final String name;
-  final String password;
+  final String? id;
+  final String? name;
+  final String? password;
 
   const Device({
-    @required this.id,
-    @required this.name,
+    required this.id,
+    required this.name,
     this.password,
   });
 

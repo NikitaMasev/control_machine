@@ -20,13 +20,7 @@ abstract class DevicesLoadingState extends Equatable {
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _DevicesLoadingState [_type]s defined.
   R when<R extends Object>(
-      {@required R Function() search, @required R Function() stop}) {
-    assert(() {
-      if (search == null || stop == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+      {required R Function() search, required R Function() stop}) {
     switch (this._type) {
       case _DevicesLoadingState.Search:
         return search();
@@ -41,15 +35,9 @@ abstract class DevicesLoadingState extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function() search,
-      R Function() stop,
-      @required R Function(DevicesLoadingState) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function()? search,
+      R Function()? stop,
+      required R Function(DevicesLoadingState) orElse}) {
     switch (this._type) {
       case _DevicesLoadingState.Search:
         if (search == null) break;
@@ -63,7 +51,7 @@ abstract class DevicesLoadingState extends Equatable {
 
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
-  void whenPartial({void Function() search, void Function() stop}) {
+  void whenPartial({void Function()? search, void Function()? stop}) {
     assert(() {
       if (search == null && stop == null) {
         throw 'provide at least one branch';

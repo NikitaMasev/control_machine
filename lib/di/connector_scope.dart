@@ -7,8 +7,8 @@ class ConnectorScope extends StatelessWidget {
   final Widget child;
 
   const ConnectorScope({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override

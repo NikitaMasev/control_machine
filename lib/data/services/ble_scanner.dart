@@ -19,7 +19,7 @@ class BleScanner implements Scanner {
   final _streamDevices = BehaviorSubject<List<DiscoveredDevice>>();
   final _devices = <DiscoveredDevice>[];
 
-  StreamSubscription _subDevices;
+  StreamSubscription? _subDevices;
 
   BleScanner(this._ble);
 

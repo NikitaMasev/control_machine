@@ -9,8 +9,8 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 class DeviceControlBloc extends Bloc<DeviceControlEvent, DeviceControlState> {
   final BleWriter _bleWriter;
   final CharacteristicScanner _characteristicScanner;
-  final String deviceId;
-  QualifiedCharacteristic _qualifiedCharacteristic;
+  final String? deviceId;
+  QualifiedCharacteristic? _qualifiedCharacteristic;
 
   static const _END_PACKAGE = ';';
 
@@ -36,7 +36,7 @@ class DeviceControlBloc extends Bloc<DeviceControlEvent, DeviceControlState> {
       yield DeviceControlState.loading();
       try {
         _qualifiedCharacteristic = await _characteristicScanner
-            .get(deviceId)
+            .get(deviceId!)
             .timeout(Duration(seconds: 5));
 
         yield DeviceControlState.loaded();
@@ -47,6 +47,6 @@ class DeviceControlBloc extends Bloc<DeviceControlEvent, DeviceControlState> {
 
     final data = 'X${e.x}Y${e.y}$_END_PACKAGE'.codeUnits;
 
-    await _bleWriter.send(_qualifiedCharacteristic, data);
+    await _bleWriter.send(_qualifiedCharacteristic!, data);
   }
 }

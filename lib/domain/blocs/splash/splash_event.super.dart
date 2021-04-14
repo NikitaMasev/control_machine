@@ -17,13 +17,7 @@ abstract class SplashEvent extends Equatable {
 
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _SplashEvent [_type]s defined.
-  R when<R extends Object>({@required R Function() init}) {
-    assert(() {
-      if (init == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+  R when<R extends Object>({required R Function() init}) {
     switch (this._type) {
       case _SplashEvent.Init:
         return init();
@@ -36,13 +30,7 @@ abstract class SplashEvent extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function() init, @required R Function(SplashEvent) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function()? init, required R Function(SplashEvent) orElse}) {
     switch (this._type) {
       case _SplashEvent.Init:
         if (init == null) break;
@@ -53,7 +41,7 @@ abstract class SplashEvent extends Equatable {
 
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
-  void whenPartial({void Function() init}) {
+  void whenPartial({void Function()? init}) {
     assert(() {
       if (init == null) {
         throw 'provide at least one branch';

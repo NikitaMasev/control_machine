@@ -22,15 +22,9 @@ abstract class DeviceControlState extends Equatable {
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _DeviceControlState [_type]s defined.
   R when<R extends Object>(
-      {@required R Function() loading,
-      @required R Function() loaded,
-      @required R Function() error}) {
-    assert(() {
-      if (loading == null || loaded == null || error == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+      {required R Function() loading,
+      required R Function() loaded,
+      required R Function() error}) {
     switch (this._type) {
       case _DeviceControlState.Loading:
         return loading();
@@ -47,16 +41,10 @@ abstract class DeviceControlState extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function() loading,
-      R Function() loaded,
-      R Function() error,
-      @required R Function(DeviceControlState) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function()? loading,
+      R Function()? loaded,
+      R Function()? error,
+      required R Function(DeviceControlState) orElse}) {
     switch (this._type) {
       case _DeviceControlState.Loading:
         if (loading == null) break;
@@ -74,9 +62,9 @@ abstract class DeviceControlState extends Equatable {
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
   void whenPartial(
-      {void Function() loading,
-      void Function() loaded,
-      void Function() error}) {
+      {void Function()? loading,
+      void Function()? loaded,
+      void Function()? error}) {
     assert(() {
       if (loading == null && loaded == null && error == null) {
         throw 'provide at least one branch';

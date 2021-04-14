@@ -7,8 +7,8 @@ class ErrorForm extends StatelessWidget {
   final VoidCallback retry;
 
   const ErrorForm({
-    @required this.error,
-    @required this.retry,
+    required this.error,
+    required this.retry,
   });
 
   @override

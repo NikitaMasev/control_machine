@@ -13,7 +13,7 @@ abstract class DevicesState extends Equatable {
 
   factory DevicesState.loading() = Loading.create;
 
-  factory DevicesState.loaded({@required List<Device> devices}) = Loaded.create;
+  factory DevicesState.loaded({required List<Device> devices}) = Loaded.create;
 
   factory DevicesState.error() = Error.create;
 
@@ -24,19 +24,10 @@ abstract class DevicesState extends Equatable {
   /// The [when] method is the equivalent to pattern matching.
   /// Its prototype depends on the _DevicesState [_type]s defined.
   R when<R extends Object>(
-      {@required R Function() loading,
-      @required R Function(Loaded) loaded,
-      @required R Function() error,
-      @required R Function() searchStopped}) {
-    assert(() {
-      if (loading == null ||
-          loaded == null ||
-          error == null ||
-          searchStopped == null) {
-        throw 'check for all possible cases';
-      }
-      return true;
-    }());
+      {required R Function() loading,
+      required R Function(Loaded) loaded,
+      required R Function() error,
+      required R Function() searchStopped}) {
     switch (this._type) {
       case _DevicesState.Loading:
         return loading();
@@ -55,17 +46,11 @@ abstract class DevicesState extends Equatable {
   /// On the other hand, it adds an extra orElse required parameter,
   /// for fallback behavior.
   R whenOrElse<R extends Object>(
-      {R Function() loading,
-      R Function(Loaded) loaded,
-      R Function() error,
-      R Function() searchStopped,
-      @required R Function(DevicesState) orElse}) {
-    assert(() {
-      if (orElse == null) {
-        throw 'Missing orElse case';
-      }
-      return true;
-    }());
+      {R Function()? loading,
+      R Function(Loaded)? loaded,
+      R Function()? error,
+      R Function()? searchStopped,
+      required R Function(DevicesState) orElse}) {
     switch (this._type) {
       case _DevicesState.Loading:
         if (loading == null) break;
@@ -86,10 +71,10 @@ abstract class DevicesState extends Equatable {
   /// The [whenPartial] method is equivalent to [whenOrElse],
   /// but non-exhaustive.
   void whenPartial(
-      {void Function() loading,
-      void Function(Loaded) loaded,
-      void Function() error,
-      void Function() searchStopped}) {
+      {void Function()? loading,
+      void Function(Loaded)? loaded,
+      void Function()? error,
+      void Function()? searchStopped}) {
     assert(() {
       if (loading == null &&
           loaded == null &&
@@ -136,9 +121,9 @@ class _LoadingImpl extends Loading {
 
 @immutable
 abstract class Loaded extends DevicesState {
-  const Loaded({@required this.devices}) : super(_DevicesState.Loaded);
+  const Loaded({required this.devices}) : super(_DevicesState.Loaded);
 
-  factory Loaded.create({@required List<Device> devices}) = _LoadedImpl;
+  factory Loaded.create({required List<Device> devices}) = _LoadedImpl;
 
   final List<Device> devices;
 
@@ -149,7 +134,7 @@ abstract class Loaded extends DevicesState {
 
 @immutable
 class _LoadedImpl extends Loaded {
-  const _LoadedImpl({@required this.devices}) : super(devices: devices);
+  const _LoadedImpl({required this.devices}) : super(devices: devices);
 
   @override
   final List<Device> devices;

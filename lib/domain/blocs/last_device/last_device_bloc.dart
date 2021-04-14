@@ -36,9 +36,7 @@ class LastDeviceBloc extends Bloc<LastDeviceEvent, LastDeviceState> {
           .getLastConnectedDevice()
           .timeout(Duration(seconds: 5));
 
-      if (device == null) {
-        yield LastDeviceState.loading();
-      } else if (device.isEmpty) {
+      if (device.isEmpty) {
         yield LastDeviceState.empty();
       } else {
         yield LastDeviceState.loaded(device: device);
