@@ -37,8 +37,8 @@ class MachineControllerImpl implements MachineController {
   Future<void> send(String dataX, String dataY) async {
     _timerPing?.cancel();
 
-    final data = '$_SYMBOL_DATA_X$dataX$_SYMBOL_DATA_Y$dataY$_END_PACKAGE'
-        .codeUnits;
+    final data =
+        '$_SYMBOL_DATA_X$dataX$_SYMBOL_DATA_Y$dataY$_END_PACKAGE'.codeUnits;
     await bleWriter.send(_qualifiedCharacteristic, data);
 
     _startTimerPing();
@@ -47,9 +47,8 @@ class MachineControllerImpl implements MachineController {
   @override
   Future<void> start(String deviceId) async {
     try {
-      _qualifiedCharacteristic = await characteristicScanner
-          .get(deviceId)
-          .timeout(timeoutStart);
+      _qualifiedCharacteristic =
+          await characteristicScanner.get(deviceId).timeout(timeoutStart);
 
       _startTimerPing();
     } on Exception {
@@ -58,12 +57,10 @@ class MachineControllerImpl implements MachineController {
   }
 
   void _onTimerPingTrigger() {
-    print('PING TRIGGER');
     final data = '$_SYMBOL_PING$_END_PACKAGE'.codeUnits;
-    bleWriter.send(_qualifiedCharacteristic, data).then((value) {
-      print('VALUE SEND');
-      _startTimerPing();
-    });
+    bleWriter
+        .send(_qualifiedCharacteristic, data)
+        .then((_) => _startTimerPing());
   }
 
   void _startTimerPing() {
