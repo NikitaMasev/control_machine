@@ -1,6 +1,8 @@
 import 'package:control_machine/data/models/device.dart';
 import 'package:control_machine/data/services/ble_connector.dart';
-import 'package:control_machine/di/controller_scope.dart';
+import 'package:control_machine/di/ble_scanner_writer_scope.dart';
+import 'package:control_machine/di/device_control_bloc_scope.dart';
+import 'package:control_machine/di/machine_controller_scope.dart';
 import 'package:control_machine/domain/blocs/device_connect/bloc.dart';
 import 'package:control_machine/domain/blocs/last_device/bloc.dart';
 import 'package:control_machine/presentation/widgets/error_form.dart';
@@ -32,7 +34,13 @@ class ControlDevicePage extends StatelessWidget {
             ),
             builder: (ctx, state) => state.when(
               loading: () => LoadingIndicator(),
-              connected: () => ControllerScope(child: JoyStick()),
+              connected: () => BleScannerWriterScope(
+                child: MachineControllerScope(
+                  child: DeviceControlBlocScope(
+                    child: JoyStick(),
+                  ),
+                ),
+              ),
               errorConnecting: () => ErrorForm(
                 error: 'Не удалось подключиться к устройству.',
                 retry: () => DeviceConnectBloc(context.read<Connector>())

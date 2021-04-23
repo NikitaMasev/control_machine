@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  Bloc.observer = BlocLogger();
+  //Bloc.observer = BlocLogger();
   runApp(Application());
 }
 

@@ -1,23 +1,17 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:control_machine/data/services/ble_characteristic_scanner.dart';
-import 'package:control_machine/data/services/ble_writer.dart';
 import 'package:control_machine/domain/blocs/device_control/bloc.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:control_machine/domain/controllers/machine_controller.dart';
 
 class DeviceControlBloc extends Bloc<DeviceControlEvent, DeviceControlState> {
-  final BleWriter _bleWriter;
-  final CharacteristicScanner _characteristicScanner;
-  final String? deviceId;
-  QualifiedCharacteristic? _qualifiedCharacteristic;
-
-  static const _END_PACKAGE = ';';
+  final MachineController _machineController;
+  final String _deviceId;
+  bool _controllerStarted = false;
 
   DeviceControlBloc(
-    this._bleWriter,
-    this._characteristicScanner,
-    this.deviceId,
+    this._machineController,
+    this._deviceId,
   ) : super(DeviceControlState.loading());
 
   @override
@@ -32,12 +26,11 @@ class DeviceControlBloc extends Bloc<DeviceControlEvent, DeviceControlState> {
   Stream<DeviceControlState> _eventSend(
     Send e,
   ) async* {
-    if (_qualifiedCharacteristic == null) {
+    if (!_controllerStarted) {
       yield DeviceControlState.loading();
       try {
-        _qualifiedCharacteristic = await _characteristicScanner
-            .get(deviceId!)
-            .timeout(Duration(seconds: 5));
+        await _machineController.start(_deviceId);
+        _controllerStarted = true;
 
         yield DeviceControlState.loaded();
       } on Exception {
@@ -45,8 +38,6 @@ class DeviceControlBloc extends Bloc<DeviceControlEvent, DeviceControlState> {
       }
     }
 
-    final data = 'X${e.x}Y${e.y}$_END_PACKAGE'.codeUnits;
-
-    await _bleWriter.send(_qualifiedCharacteristic!, data);
+    await _machineController.send(e.x.toString(), e.y.toString());
   }
 }
