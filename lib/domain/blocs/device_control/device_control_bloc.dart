@@ -40,4 +40,10 @@ class DeviceControlBloc extends Bloc<DeviceControlEvent, DeviceControlState> {
 
     await _machineController.send(e.x.toString(), e.y.toString());
   }
+
+  @override
+  Future<void> close() async {
+    await _machineController.dispose();
+    return super.close();
+  }
 }

@@ -46,6 +46,7 @@ class MachineControllerImpl implements MachineController {
 
   @override
   Future<void> start(String deviceId) async {
+    print('START MACHINE CONTROLLER');
     try {
       _qualifiedCharacteristic =
           await characteristicScanner.get(deviceId).timeout(timeoutStart);
